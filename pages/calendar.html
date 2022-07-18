@@ -51,36 +51,37 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <form  id="agregarEvento">
+                      <form id="agregarEventoForm">
                         <div class="mb-3">
                             <label for="formGroupExampleInput" class="form-label">Nombre del Evento</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre">
+                            <input required type="text" class="form-control" id="eventName" placeholder="Nombre">
                           </div>
                           <div class="mb-3">
                             <label for="formGroupExampleInput2" class="form-label">Descripcion del evento</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Descripcion">
+                            <input required type="text" class="form-control" id="eventDescription" placeholder="Descripcion">
                           </div>
                           <div class="mb-3">
                             <label for="formGroupExampleInput3" class="form-label">Fecha</label>
-                            <input type="date" class="form-control" id="formGroupExampleInput2">
+                            <input required type="date" class="form-control" id="eventDate">
                           </div>
                           <div class="mb-3">
                             <label for="formGroupExampleInput4" class="form-label">Horario</label>
                             <div class="row">
                                 <div class="col">
-                                  <input type="time" class="form-control">
+                                  <input required type="time" class="form-control" id="eventTimeStart">
                                 </div>
                                 <div class="col">
-                                  <input type="time" class="form-control">
+                                  <input required type="time" class="form-control" id="eventTimeEnd">
                                 </div>
                               </div>
                           </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                            <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Guardar" id="guardarEvento"></input>
+                          </div>
                       </form>
                     </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-                      <input type="submit" class="btn btn-primary" value="Guardar"></input>
-                    </div>
+                  </div>
                   
                 </div>
             </div>
@@ -88,18 +89,9 @@
         <main>
             <section class="todayEvents">
                 <h3>Eventos</h3>
-                <div id="eventosLista">
-
-                </div>
+                <div id="eventosLista" class="listaEventos"></div>
             </section>
-<!--             <section class="nextEvents">
-                <h3>Futuros Eventos</h3>
-                <div>
-
-                </div>
-            </section> -->
         </main>
-
     </section>
 
     <script src="../js/main.js"></script>
