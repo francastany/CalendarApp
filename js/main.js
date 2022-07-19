@@ -27,16 +27,16 @@ agregarEvento.addEventListener("submit", (event) => {
     console.log(eventos)
 
     agregarEvento.reset()
-
 })
+
 agregarEvento.addEventListener("submit", (evento) => {
     eventos.forEach(evento => {
         eventosLista.innerHTML += `
-        <div class="evento">
+        <li class="evento">
             <span class="evento-name">${evento.name}</span>
             <span class="evento-date">${evento.date}</span>
             <span class="evento-time">${evento.timeStart} - ${evento.timeEnd}</span>
-        </div>
+        </li>
         `
     })
 })
