@@ -30,6 +30,7 @@ agregarEvento.addEventListener("submit", (event) => {
 })
 
 agregarEvento.addEventListener("submit", (evento) => {
+    eventosLista.innerHTML = ""
     eventos.forEach(evento => {
         eventosLista.innerHTML += `
         <li class="evento">
