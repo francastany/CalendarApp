@@ -81,18 +81,20 @@ body{
                     .evento{
                         width: 100%;
                         background-color: #f2f2f2;
-                        display: flex;
+                        // display: flex;
                         padding: 0.3rem;
-                        justify-content: space-between;
+                        // justify-content: space-between;
+                        &Footer{
+                            .eliminarEvento{
+                                margin: 0;
+                                border: 0;
+                                padding: 0;
+                                cursor: pointer;
+                            }
+                        }
                     }
                 }
-                button{
-                    margin: 1rem 0;
-                    padding: 0.2rem;
-                    border: 1px solid #d1d1d1;
-                    box-shadow: 3px 3px 3px #d1d1d1;
-                    
-                }
+
             }
             
         }
