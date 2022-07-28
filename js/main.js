@@ -1,5 +1,12 @@
 //CALENDAR APP
 
+//Creamos/inicializamos variables
+const fechaActual = new Date();
+const agregarEvento = document.getElementById("agregarEventoForm")
+const eventosLista = document.getElementById("eventosLista")
+// const proxEventosLista = document.getElementById("proxEventosLista")
+
+
 //Creamos la clase constructora para los objetos "Eventos"
 class Evento{
     constructor(name, description, date, timeStart, timeEnd) {
@@ -58,40 +65,41 @@ if(localStorage.getItem("eventos")) {
     localStorage.setItem("eventos", JSON.stringify(eventos))
 } */
 
-//Creamos/inicializamos variables
-const fechaActual = new Date();
-const agregarEvento = document.getElementById("agregarEventoForm")
-const eventosLista = document.getElementById("eventosLista")
-// const proxEventosLista = document.getElementById("proxEventosLista")
+
 
 mostrarEvento();
 eliminarEvento();
 
-// Evento Submit del formulario para crear los eventos.
-agregarEvento.addEventListener("submit", (event) => {
-    event.preventDefault()
-
-    let name = document.getElementById("eventName").value
-    let description = document.getElementById("eventDescription").value
-
-    let date = new Date(document.getElementById("eventDate").value)
-    date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000) // Sacando el OffSet por defecto de JS. (No resta un numero al día)
-
-    let timeStart = document.getElementById("eventTimeStart").value
-    let timeEnd = document.getElementById("eventTimeEnd").value
-
-    const evento = new Evento (name, description, date.toLocaleDateString(), timeStart, timeEnd)
-    eventos.push(evento)
+if (eventosLista != null || agregarEvento != null) {
+    // Evento Submit del formulario para crear los eventos.
+    agregarEvento.addEventListener("submit", (event) => {
+        event.preventDefault()
     
-    localStorage.setItem("eventos", JSON.stringify(eventos))
+        let name = document.getElementById("eventName").value
+        let description = document.getElementById("eventDescription").value
     
-    console.log(eventos)
-    // console.log(evento.date, fechaActual)
+        let date = new Date(document.getElementById("eventDate").value)
+        date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000) // Sacando el OffSet por defecto de JS. (No resta un numero al día)
+    
+        let timeStart = document.getElementById("eventTimeStart").value
+        let timeEnd = document.getElementById("eventTimeEnd").value
+    
+        const evento = new Evento (name, description, date.toLocaleDateString(), timeStart, timeEnd)
+        eventos.push(evento)
+        
+        localStorage.setItem("eventos", JSON.stringify(eventos))
+        
+        console.log(eventos)
+        // console.log(evento.date, fechaActual)
+    
+        agregarEvento.reset()
+    })
+    
+    //Mostrar eventos en pantalla y eliminarlos
+    agregarEvento.addEventListener("submit", (evento) => {
+        mostrarEvento();
+        eliminarEvento();
+        
+    })
 
-    agregarEvento.reset()
-})
-
-//Mostrar eventos en pantalla y eliminarlos
-agregarEvento.addEventListener("submit", (evento) => {
-    mostrarEvento();
-})
+}

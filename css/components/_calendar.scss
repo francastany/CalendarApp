@@ -25,6 +25,11 @@ body{
                 background-color: #FF8E3C;
                 margin: 0 5rem;
                 cursor: pointer;
+                transition: transform 0.3s;
+                &:hover{
+                    transform: translateY(-3.5px);
+                    opacity: 0.85;
+                }
             }
             .modal{
                 &-footer{
