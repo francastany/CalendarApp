@@ -1,3 +1,6 @@
+//CALENDAR APP
+
+//Creamos la clase constructora para los objetos "Eventos"
 class Evento{
     constructor(name, description, date, timeStart, timeEnd) {
         this.name = name
@@ -7,7 +10,11 @@ class Evento{
         this.timeEnd = timeEnd
     }
 }
+
+//Creamos el Array vacío donde guardaremos los Eventos
 let eventos = []
+
+//Definimos la función para mostrar los eventos en pantalla
 function mostrarEvento() {
     let eventosStorage = JSON.parse(localStorage.getItem("eventos")) // pasar de formato JSON a objeto
     
@@ -26,21 +33,41 @@ function mostrarEvento() {
         `
     })
 }
+function eliminarEvento() {
+    let eventosStorage = JSON.parse(localStorage.getItem("eventos"))
 
+    eventosStorage.forEach((evento, indice) => {
+        let eliminarEvento = document.getElementById(`evento${indice}`).lastElementChild.lastElementChild
+        
+        eliminarEvento.addEventListener("click", () => {
+            document.getElementById(`evento${indice}`).remove()
+            eventos.splice(indice, 1)
+            localStorage.setItem("eventos", JSON.stringify(eventos))
+            console.log(` ${evento.name} eliminado. `);
+        })
+    }) 
+}
 
+//Llamamos al Local Storage
+(localStorage.getItem("eventos")) ? eventos = JSON.parse(localStorage.getItem("eventos")) : localStorage.setItem("eventos", JSON.stringify(eventos))
+
+/* Antigua forma de llamar al Local Storage 
 if(localStorage.getItem("eventos")) {
    eventos = JSON.parse(localStorage.getItem("eventos"))
 } else { //si no existe una key "tareas", entonces lo crea
     localStorage.setItem("eventos", JSON.stringify(eventos))
-}
+} */
 
+//Creamos/inicializamos variables
 const fechaActual = new Date();
 const agregarEvento = document.getElementById("agregarEventoForm")
 const eventosLista = document.getElementById("eventosLista")
-const proxEventosLista = document.getElementById("proxEventosLista")
+// const proxEventosLista = document.getElementById("proxEventosLista")
 
 mostrarEvento();
+eliminarEvento();
 
+// Evento Submit del formulario para crear los eventos.
 agregarEvento.addEventListener("submit", (event) => {
     event.preventDefault()
 
@@ -59,25 +86,12 @@ agregarEvento.addEventListener("submit", (event) => {
     localStorage.setItem("eventos", JSON.stringify(eventos))
     
     console.log(eventos)
-    console.log(evento.date, fechaActual)
+    // console.log(evento.date, fechaActual)
 
     agregarEvento.reset()
 })
 
+//Mostrar eventos en pantalla y eliminarlos
 agregarEvento.addEventListener("submit", (evento) => {
     mostrarEvento();
-
-    let eventosStorage = JSON.parse(localStorage.getItem("eventos"))
-    eventosStorage.forEach((evento, indice) => {
-        let eliminarEvento = document.getElementById(`evento${indice}`).lastElementChild.lastElementChild
-        
-        eliminarEvento.addEventListener("click", () => {
-            document.getElementById(`evento${indice}`).remove()
-            eventos.splice(indice, 1)
-            localStorage.setItem("eventos", JSON.stringify(eventos))
-            console.log(` ${evento.name} eliminado. `);
-        })
-    }) 
-    
 })
-
