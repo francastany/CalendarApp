@@ -21,8 +21,8 @@
         </div>
         <div class="pages">
             <nav>
-                <a href="../pages/calendar.html" id="calendar">
-                    <img src="../img/calendar_today_FILL1_wght300_GRAD0_opsz24.svg" alt="Calendar" height="27px">
+                <a href="../pages/events.html" id="events">
+                    <img src="../img/calendar_today_FILL1_wght300_GRAD0_opsz24.svg" alt="Events" height="27px">
                 </a>
                 <a href="#">
                     <img src="../img/schedule_FILL0_wght400_GRAD0_opsz24.svg" alt="Schedule" height="27px">
@@ -46,8 +46,41 @@
         <section class="contactosContainer">
             <div class="contactosContainer__header">
                 <h3>Mis contactos</h3>
-                <button id="botonAgregarContacto"> <svg height="25px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/></svg> </button>
+                <button id="botonAgregarContacto" data-bs-toggle="modal" data-bs-target="#agregarContacto"> <svg height="25px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"/></svg> </button>
             </div>
+
+            <!-- Agregar contacto form -->
+            <div class="modal fade" id="agregarContacto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar Contacto</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="agregarContactoForm">
+                                <div class="mb-3">
+                                    <label for="nombreContacto" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombreContacto" placeholder="Ingrese el nombre...">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formGroupExampleInput2" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="emailContacto" placeholder="Ingrese el Email...">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formGroupExampleInput3" class="form-label">Teléfono</label>
+                                    <input type="number" class="form-control" id="telefonoContacto" placeholder="Ingrese el número de teléfono...">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Guardar contacto" id="guardarContacto"></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div id="contactosLista" class="listaContactos"></div>
         </section>
     </main>

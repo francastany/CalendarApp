@@ -26,6 +26,30 @@ main{
                 }
             }
         }
+
+        .modal{
+            button:first-child{
+                background-color: white;
+                color: #FF8E3C;
+                border: 1px solid #FF8E3C;
+                transition: transform 0.3s;
+                &:hover{
+                    transform: translateY(-5px);
+                }
+            }
+            #guardarContacto{
+                background-color: #FF8E3C;
+                color: white;
+                border: 0;
+                font-weight: 500;
+                padding: .5rem 1rem;
+                box-shadow: 5px 5px 5px #d1d1d1;
+                transition: transform 0.3s;
+                &:hover{
+                    transform: translateY(-5px);
+                }
+            }
+        }
         .listaContactos{
             height: 80%;
             overflow: scroll;
