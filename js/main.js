@@ -51,6 +51,17 @@ function eliminarEvento() {
             eventos.splice(indice, 1)
             localStorage.setItem("eventos", JSON.stringify(eventos))
             console.log(` ${evento.name} eliminado. `);
+
+            Toastify({
+                text: "¡Evento eliminado correctamente!",
+                duration: 2000,
+                gravity: "bottom", // `top` or `bottom`
+                position: "center", // `left`, `center` or `right`
+                stopOnFocus: false, // Prevents dismissing of toast on hover
+                style: {
+                  background: "#FF8E3C",
+                },
+            }).showToast();
         })
     }) 
 }
@@ -64,8 +75,6 @@ if(localStorage.getItem("eventos")) {
 } else { //si no existe una key "tareas", entonces lo crea
     localStorage.setItem("eventos", JSON.stringify(eventos))
 } */
-
-
 
 mostrarEvento();
 eliminarEvento();
@@ -93,6 +102,17 @@ if (eventosLista != null || agregarEvento != null) {
         // console.log(evento.date, fechaActual)
     
         agregarEvento.reset()
+
+        Toastify({
+            text: "¡Evento creado correctamente!",
+            duration: 2000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
+            style: {
+              background: "#FF8E3C",
+            },
+        }).showToast();
     })
     
     //Mostrar eventos en pantalla y eliminarlos
