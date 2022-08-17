@@ -14,22 +14,78 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="logIn">
-    <!-- <section class="logIn__form">
-        <h1>CALENDAR APP</h1>
-        <p>La aplicación que hará tu día a día mucho mas sencillo y organizado.</p>
-        <form>
-            <input type="email" name="email" placeholder="Email">
-            <input type="password" name="password" placeholder="Password">
-            <div>
-                <input class="logIn__btn" type="button" value="Log In">
-                <input class="signUp__btn" type="button" value="Sign Up">
+<body>
+    <aside class="side-container">
+        <div class="profile">
+          <a href="#"><img src="../img/boy.svg" alt="profile" height="46px"></a>
+        </div>
+        <div class="pages">
+          <nav>
+            <a href="../pages/events.html" id="events">
+              <img src="../img/calendar_today_FILL1_wght300_GRAD0_opsz24.svg" alt="Events" height="27px">
+            </a>
+            <a href="../index.html">
+              <img src="../img/schedule_FILL0_wght400_GRAD0_opsz24.svg" alt="Calendar" height="27px">
+            </a>
+            <a href="../pages/contacts.html">
+              <img src="../img/person_filled_FILL1_wght300_GRAD0_opsz24.svg" alt="Contacts" height="28px">
+            </a>
+          </nav>
+        </div>
+        <div class="side-footer">
+          <a href="https://github.com/" target="_blank"><img src="../img/github-brands.svg" alt="GitHub" height="20px"></a>
+          <a href="https://twitter.com/" target="_blank"><img src="../img/twitter-brands.svg" alt="Twitter" height="20px"></a>
+        </div>
+    </aside>
+    
+    <section class="main">
+        <header>
+            <h1>Calendario</h1>
+            <button data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar Evento</button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Nuevo evento</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="agregarEventoForm">
+                        <div class="mb-3">
+                            <label for="formGroupExampleInput" class="form-label">Nombre del Evento</label>
+                            <input required type="text" class="form-control" id="eventName" placeholder="Nombre">
+                          </div>
+                          <div class="mb-3">
+                            <label for="formGroupExampleInput2" class="form-label">Descripcion del evento</label>
+                            <input required type="text" class="form-control" id="eventDescription" placeholder="Descripcion">
+                          </div>
+                          <div class="mb-3">
+                            <label for="formGroupExampleInput3" class="form-label">Fecha</label>
+                            <input required type="date" class="form-control" id="eventDate">
+                          </div>
+                          <div class="mb-3">
+                            <label for="formGroupExampleInput4" class="form-label">Horario</label>
+                            <div class="row">
+                                <div class="col">
+                                  <input required type="time" class="form-control" id="eventTimeStart">
+                                </div>
+                                <div class="col">
+                                  <input required type="time" class="form-control" id="eventTimeEnd">
+                                </div>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                            <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Guardar" id="guardarEvento"></input>
+                          </div>
+                      </form>
+                    </div>
+                  </div>
+                  
+                </div>
             </div>
-        </form>
+        </header>
     </section>
-    <section class="logIn__img">
-        <img src="./img/Hands - Show.png" alt="CalendarApp">
-    </section> -->
 
     <script src="./js/main.js"></script>
 </body>
