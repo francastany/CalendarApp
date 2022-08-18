@@ -21,8 +21,7 @@ class Evento{
 }
 //Creamos la clase constructora para los objetos "Contactos"
 class Contacto{
-    constructor(imagen, nombre, email, telefono) {
-        this.imagen = imagen
+    constructor(nombre, email, telefono) {
         this.nombre = nombre
         this.email = email
         this.telefono = telefono
@@ -100,6 +99,7 @@ function mostrarContactos() {
         contactosLista.innerHTML += 
         `
         <div class="contacto bg-light" id="contacto${indice}">
+            <i class="fa fa-user"></i>
             <span>${contacto.nombre}</span>
             <span>${contacto.email}</span>
             <span>${contacto.telefono}</span>
@@ -115,10 +115,10 @@ function mostrarContactos() {
 //Llamamos a la key en el Local Storage; sino, la creamos.
 (localStorage.getItem("eventos")) ? eventos = JSON.parse(localStorage.getItem("eventos")) : localStorage.setItem("eventos", JSON.stringify(eventos));
 
-(localStorage.getItem("contactos")) ? contactos = JSON.parse(localStorage.getItem("contactos")) : localStorage.setItem("contactos", JSON.stringify(contactos))
+(localStorage.getItem("contactos")) ? contactos = JSON.parse(localStorage.getItem("contactos")) : localStorage.setItem("contactos", JSON.stringify(contactos));
 
 
-if (eventosLista != null || agregarEvento != null) {
+if (eventosLista != null || agregarEvento != null) { //Detectamos en que page nos encontramos. Si estos div son 'null', entonces ejecutamos el código correspondiente a otra página.
     mostrarEvento();
     eliminarEvento();
     // Evento Submit del formulario para crear los eventos.
@@ -135,17 +135,14 @@ if (eventosLista != null || agregarEvento != null) {
         let timeStart = document.getElementById("eventTimeStart").value
         let timeEnd = document.getElementById("eventTimeEnd").value
     
-        const evento = new Evento (name, description, date.toLocaleDateString(), timeStart, timeEnd)
-        eventos.push(evento)
-        // eventos.sort((evento1, evento2) => {evento1.date - evento2.date})
+        const evento = new Evento (name, description, date.toLocaleDateString(), timeStart, timeEnd) // Constituimos al evento mediante la clase constructora
+        eventos.push(evento) // Metemos el evento al Array
 
-        localStorage.setItem("eventos", JSON.stringify(eventos))//Pisamos el Local Storage con el Array que contiene el evento creado
-        
-        console.log(eventos)
+        localStorage.setItem("eventos", JSON.stringify(eventos)) //Pisamos el Local Storage con el Array que contiene el evento creado
     
         agregarEvento.reset() //Reseteamos el Form
 
-        Toastify({ //Creamos toast para evento creado
+        Toastify({ //Creamos toast para evento añadido
             text: "¡Evento creado correctamente!",
             duration: 2000,
             gravity: "bottom", // `top` or `bottom`
@@ -155,16 +152,13 @@ if (eventosLista != null || agregarEvento != null) {
               background: "#FF8E3C",
             },
         }).showToast();
-    })
-    
-    //Mostrar eventos en pantalla y eliminarlos
-    agregarEvento.addEventListener("submit", (evento) => {
+
+        //Mostrar eventos en pantalla y eliminarlos
         mostrarEvento();
         eliminarEvento();
     })
-
+    
 } else {
-    mostrarContactos();
     
     contactoForm.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -173,7 +167,6 @@ if (eventosLista != null || agregarEvento != null) {
         let contactoTelefono = document.getElementById("contactoTelefono").value
 
         const contacto = new Contacto (contactoNombre, contactoEmail, contactoTelefono)
-
         contactos.push(contacto)
 
         localStorage.setItem("contactos", JSON.stringify(contactos))
@@ -190,7 +183,9 @@ if (eventosLista != null || agregarEvento != null) {
               background: "#FF8E3C",
             },
         }).showToast();
+        mostrarContactos();
 
     })
+    mostrarContactos();
 
 }
