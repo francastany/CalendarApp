@@ -92,7 +92,6 @@ function eliminarEvento() {
 
 function mostrarContactos() {
     let contactosStorage = JSON.parse(localStorage.getItem("contactos"))
-    console.log(contactosStorage);
 
     contactosLista.innerHTML = ""
     contactosStorage.forEach((contacto, indice) => {
@@ -112,6 +111,30 @@ function mostrarContactos() {
 
 }
 
+function eliminarContacto() {
+    let contactosStorage = JSON.parse(localStorage.getItem("contactos"))
+
+    contactosStorage.forEach((contacto, indice) => {
+        let eliminarContactoBtn = document.getElementById(`contacto${indice}`).lastElementChild.lastElementChild //Identificamos el botón para eliminar contacto
+    
+        eliminarContactoBtn.addEventListener('click', () => {
+            document.getElementById(`contacto${indice}`).remove() //Eliminamos del HTML
+            contactos.splice(indice, 1) //Eliminamos del Array
+            localStorage.setItem("contactos", JSON.stringify(contactos)) //Eliminamos del LS
+    
+            Toastify({ // Creamos toast con Librería para evento eliminado.
+                text: "¡Contacto eliminado correctamente!",
+                duration: 2000,
+                gravity: "bottom", // `top` or `bottom`
+                position: "center", // `left`, `center` or `right`
+                stopOnFocus: false, // Prevents dismissing of toast on hover
+                style: {
+                  background: "#FF8E3C",
+                },
+            }).showToast();
+        })
+    })
+}
 //Llamamos a la key en el Local Storage; sino, la creamos.
 (localStorage.getItem("eventos")) ? eventos = JSON.parse(localStorage.getItem("eventos")) : localStorage.setItem("eventos", JSON.stringify(eventos));
 
@@ -183,9 +206,11 @@ if (eventosLista != null || agregarEvento != null) { //Detectamos en que page no
               background: "#FF8E3C",
             },
         }).showToast();
+
         mostrarContactos();
-
+        eliminarContacto();
     })
+    
     mostrarContactos();
-
+    eliminarContacto();
 }
