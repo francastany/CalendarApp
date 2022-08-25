@@ -1,0 +1,109 @@
+.calendar-container{
+    margin-top: 3rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    // position: absolute;
+    .calendar {
+        width: 450px;
+        height: 520px;
+        background-color: #ededed;
+        box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+    
+        .month {
+            color: #ededed;
+            width: 100%;
+            height: 120px;
+            background-color: #FF8E3C;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            text-align: center;
+            text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.3);
+
+            i {
+                cursor: pointer;
+            }
+
+            h1 {
+                font-size: 2rem;
+                // font-weight: 400;
+                text-transform: uppercase;
+                // letter-spacing: 0.2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+            }
+        }
+
+        .weekdays {
+            width: 100%;
+            height: 50px;
+            padding: 0 0.4rem;
+            display: flex;
+            align-items: center;
+            div {
+                font-weight: 400;
+                letter-spacing: 0.1px;
+                width: calc(44.2rem / 7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-shadow: 0 0.3rem 0.5rem rgba(55, 55, 55, 0.2);
+            }
+        }
+        .days {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2px;
+
+            div {
+                margin: 3px;
+                width: 57.433px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+                transition: background-color 0.2s;
+                &:hover:not(.today) {
+                    background-color: #FF8E3C;
+                    color: #ededed;
+                    border: 1.5px solid white;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .calendarEvents{
+        position: relative;
+        width: 60%;
+        right: 20%;
+
+        div:first-child{
+            margin-top: 1rem;
+            height: 120px;
+            h3{
+                font-size: xx-large;
+                margin-bottom: 1rem;
+            }
+        }
+    }
+
+}
+
+.today {
+    background-color: #FF8E3C;
+    color: #ededed;
+    border: 1.5px solid white;
+
+}
+
+.prev-date, .next-date {
+    opacity: 0.5;
+}

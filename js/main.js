@@ -110,7 +110,6 @@ function mostrarContactos() {
     })
 
 }
-
 function eliminarContacto() {
     let contactosStorage = JSON.parse(localStorage.getItem("contactos"))
 
@@ -141,7 +140,7 @@ function eliminarContacto() {
 (localStorage.getItem("contactos")) ? contactos = JSON.parse(localStorage.getItem("contactos")) : localStorage.setItem("contactos", JSON.stringify(contactos));
 
 
-if (eventosLista != null || agregarEvento != null) { //Detectamos en que page nos encontramos. Si estos div son 'null', entonces ejecutamos el código correspondiente a otra página.
+if (eventosLista != null && agregarEvento != null) { //Detectamos en que page nos encontramos. Si estos div son 'null', entonces ejecutamos el código correspondiente a otra página.
     mostrarEvento();
     eliminarEvento();
     // Evento Submit del formulario para crear los eventos.
@@ -181,7 +180,122 @@ if (eventosLista != null || agregarEvento != null) { //Detectamos en que page no
         eliminarEvento();
     })
     
-} else {
+} else if(eventosLista === null && contactoForm === null) {
+
+    const calendarDate = new Date();
+    calendarDate.setDate(1) //Seteamos la fecha al primer día del mes para saber en que día de la semana comienza el mismo.
+
+    const meses = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+    ];
+    const diasDeSemana = [
+        "Dom",
+        "Lun",
+        "Mar",
+        "Mier",
+        "Jue",
+        "Vie",
+        "Sab",
+    ];
+    const diasDeSemanaLong = [
+        "Domingo",
+        "Lunes",
+        "Marter",
+        "Miercoles",
+        "Jueves",
+        "Viernes",
+        "Sabado",
+    ];
+
+
+    const mostrarCalendario = () => {
+        const diasDelMes = document.querySelector('.days') //Div contenedor
+        const ultimoDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDate() //Ultimo día del mes actual
+        
+        const UltDiaMesAnterior = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate() //Ultimo día del mes anterior
+        console.log(UltDiaMesAnterior);
+        const indicePrimerDia = calendarDate.getDay()
+        console.log(indicePrimerDia);
+        const indiceUltDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDay()
+        console.log(indiceUltDia);
+        const proximosDias = 7 - indiceUltDia - 1
+        
+        let dias = ""
+        
+    
+        
+        //Titulo del calendario
+        document.querySelector('.date h1').innerHTML = meses[calendarDate.getMonth()]
+        document.querySelector('.date p').innerHTML = `${diasDeSemana[new Date().getDay()]}, ${new Date().getDate()} de ${meses[new Date().getMonth()]} de ${new Date().getUTCFullYear()}`
+        //Mostrar días del mes anterior
+        for(let x = indicePrimerDia; x > 0; x--) {
+            dias += `<div class="prev-date">${UltDiaMesAnterior - x + 1}</div>`
+        }
+        
+        //Mostrar días del mes y destacar día de hoy
+        for(let i = 1; i <= ultimoDia; i++) {
+            if(i === new Date().getDate() && calendarDate.getMonth() === new Date().getMonth()){
+                dias += `<div class="day today">${i}</div>`
+            } else {
+                dias += `<div class="day">${i}</div>`
+            }
+        }
+        
+        //Mostrar días del proximo mes
+        for(let a = 1; a <= proximosDias; a++) {
+            dias += `<div class="next-date">${a}</div>`
+        }
+        diasDelMes.innerHTML = dias
+    
+        mostrarEventoSelec();
+    
+    }
+
+    document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[new Date().getDay()]} ${new Date().getDate()} de ${meses[new Date().getMonth()]}`
+
+    function mostrarEventoSelec() {
+        
+        let arrDias = Array.from(document.querySelectorAll('.day'))
+
+        arrDias.forEach((dia, indice) => {
+            dia.addEventListener('click', () => {
+                // console.log(indice + 1)
+                const nuevaFecha = new Date()
+                nuevaFecha.setFullYear(calendarDate.getFullYear())
+                nuevaFecha.setMonth(calendarDate.getMonth())
+                nuevaFecha.setDate(indice + 1)
+
+                document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[nuevaFecha.getDay()]} ${nuevaFecha.getDate()} de ${meses[nuevaFecha.getMonth()]}`
+            })
+        })
+
+    }
+
+    // mostrarEventoSelec();
+    mostrarCalendario();
+
+    document.querySelector('.prev').addEventListener('click', () => {
+        calendarDate.setMonth(calendarDate.getMonth() - 1)
+        mostrarCalendario()
+    })
+
+    document.querySelector('.next').addEventListener('click', () => {
+        calendarDate.setMonth(calendarDate.getMonth() + 1)
+        mostrarCalendario()
+    })
+
+} else{
     
     contactoForm.addEventListener('submit', (e) => {
         e.preventDefault()
