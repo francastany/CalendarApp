@@ -2,7 +2,7 @@
 
 //Creamos variables
 const fechaActual = new Date().toLocaleDateString(); //Fecha de hoy en formato String (Mes, Día, Año)
-const agregarEvento = document.getElementById("agregarEventoForm")
+const agregarEventoForm = document.getElementById("agregarEventoForm")
 const eventosLista = document.getElementById("eventosLista")
 const proxEventosLista = document.getElementById("proxEventosLista")
 const contactoForm = document.getElementById("contactoForm")
@@ -31,6 +31,46 @@ class Contacto{
 //Creamos los Array vacíos donde guardaremos los Eventos y los Contactos
 let eventos = []
 let contactos = []
+
+
+function agregarEvento() {
+    // Evento Submit del formulario para crear los eventos.
+    agregarEventoForm.addEventListener("submit", (event) => {
+        event.preventDefault() //Prevenimos recarga de la página
+    
+        //Creamos el evento
+        let name = document.getElementById("eventName").value
+        let description = document.getElementById("eventDescription").value
+    
+        let date = new Date(document.getElementById("eventDate").value)
+        date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000) // Sacando el OffSet por defecto de JS. (No resta un numero al día)
+    
+        let timeStart = document.getElementById("eventTimeStart").value
+        let timeEnd = document.getElementById("eventTimeEnd").value
+    
+        const evento = new Evento (name, description, date.toLocaleDateString(), timeStart, timeEnd) // Constituimos al evento mediante la clase constructora
+        eventos.push(evento) // Metemos el evento al Array
+
+        localStorage.setItem("eventos", JSON.stringify(eventos)) //Pisamos el Local Storage con el Array que contiene el evento creado
+    
+        agregarEventoForm.reset() //Reseteamos el Form
+
+        Toastify({ //Creamos toast para evento añadido
+            text: "¡Evento creado correctamente!",
+            duration: 2000,
+            gravity: "bottom", // `top` or `bottom`
+            position: "center", // `left`, `center` or `right`
+            stopOnFocus: false, // Prevents dismissing of toast on hover
+            style: {
+              background: "#FF8E3C",
+            },
+        }).showToast();
+
+        //Mostrar eventos en pantalla y eliminarlos
+        mostrarEvento();
+        eliminarEvento();
+    })
+}
 
 //Definimos la función para mostrar los eventos en pantalla
 function mostrarEvento() {
@@ -64,6 +104,7 @@ function mostrarEvento() {
     })
     
 }
+
 function eliminarEvento() {
     let eventosStorage = JSON.parse(localStorage.getItem("eventos")) //Llamamos al array "eventos" en Local Storage
 
@@ -143,48 +184,11 @@ function eliminarContacto() {
 if (eventosLista != null && agregarEvento != null) { //Detectamos en que page nos encontramos. Si estos div son 'null', entonces ejecutamos el código correspondiente a otra página.
     mostrarEvento();
     eliminarEvento();
-    // Evento Submit del formulario para crear los eventos.
-    agregarEvento.addEventListener("submit", (event) => {
-        event.preventDefault() //Prevenimos recarga de la página
     
-        //Creamos el evento
-        let name = document.getElementById("eventName").value
-        let description = document.getElementById("eventDescription").value
-    
-        let date = new Date(document.getElementById("eventDate").value)
-        date.setTime(date.getTime() + date.getTimezoneOffset() * 60 * 1000) // Sacando el OffSet por defecto de JS. (No resta un numero al día)
-    
-        let timeStart = document.getElementById("eventTimeStart").value
-        let timeEnd = document.getElementById("eventTimeEnd").value
-    
-        const evento = new Evento (name, description, date.toLocaleDateString(), timeStart, timeEnd) // Constituimos al evento mediante la clase constructora
-        eventos.push(evento) // Metemos el evento al Array
-
-        localStorage.setItem("eventos", JSON.stringify(eventos)) //Pisamos el Local Storage con el Array que contiene el evento creado
-    
-        agregarEvento.reset() //Reseteamos el Form
-
-        Toastify({ //Creamos toast para evento añadido
-            text: "¡Evento creado correctamente!",
-            duration: 2000,
-            gravity: "bottom", // `top` or `bottom`
-            position: "center", // `left`, `center` or `right`
-            stopOnFocus: false, // Prevents dismissing of toast on hover
-            style: {
-              background: "#FF8E3C",
-            },
-        }).showToast();
-
-        //Mostrar eventos en pantalla y eliminarlos
-        mostrarEvento();
-        eliminarEvento();
-    })
+    agregarEvento();    
     
 } else if(eventosLista === null && contactoForm === null) {
-
-    const calendarDate = new Date();
-    calendarDate.setDate(1) //Seteamos la fecha al primer día del mes para saber en que día de la semana comienza el mismo.
-
+    
     const meses = [
         "Enero",
         "Febrero",
@@ -218,23 +222,26 @@ if (eventosLista != null && agregarEvento != null) { //Detectamos en que page no
         "Sabado",
     ];
 
+    agregarEvento();
 
+    const calendarDate = new Date();
+    calendarDate.setDate(1) //Seteamos la fecha al primer día del mes para saber en que día de la semana comienza el mismo.
+
+
+    document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[new Date().getDay()]} ${new Date().getDate()} de ${meses[new Date().getMonth()]}`
+
+    //Renderizamos el calendario
     const mostrarCalendario = () => {
         const diasDelMes = document.querySelector('.days') //Div contenedor
         const ultimoDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDate() //Ultimo día del mes actual
         
         const UltDiaMesAnterior = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate() //Ultimo día del mes anterior
-        console.log(UltDiaMesAnterior);
         const indicePrimerDia = calendarDate.getDay()
-        console.log(indicePrimerDia);
         const indiceUltDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDay()
-        console.log(indiceUltDia);
         const proximosDias = 7 - indiceUltDia - 1
         
         let dias = ""
-        
-    
-        
+            
         //Titulo del calendario
         document.querySelector('.date h1').innerHTML = meses[calendarDate.getMonth()]
         document.querySelector('.date p').innerHTML = `${diasDeSemana[new Date().getDay()]}, ${new Date().getDate()} de ${meses[new Date().getMonth()]} de ${new Date().getUTCFullYear()}`
@@ -258,32 +265,59 @@ if (eventosLista != null && agregarEvento != null) { //Detectamos en que page no
         }
         diasDelMes.innerHTML = dias
     
-        mostrarEventoSelec();
+        SeleccionarEvento();
     
-    }
+    }    
 
-    document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[new Date().getDay()]} ${new Date().getDate()} de ${meses[new Date().getMonth()]}`
+    function mostrarEventoSelec(array) {
 
-    function mostrarEventoSelec() {
+        if(array.length === 0){
+            document.getElementById("calendarEvents-body").innerHTML = `
+            <p class="no-events">No hay eventos para esta fecha...</p>
+            `
+        } else {
+            document.getElementById("calendarEvents-body").innerHTML = ""
+
+            array.forEach((evento) => {
+                document.getElementById("calendarEvents-body").innerHTML += `
+                <div class="eventoSelec">
+                    <h4>${evento.name}</h4>
+                    <p>${evento.description}</p>
+                    <span>Desde las ${evento.timeStart}hs. hasta las ${evento.timeEnd}hs.</span>
+                </div>
+                `
+
+            })
+        }
+    } 
+
+    function SeleccionarEvento() {
         
         let arrDias = Array.from(document.querySelectorAll('.day'))
+        const nuevaFecha = new Date()
+
 
         arrDias.forEach((dia, indice) => {
+
             dia.addEventListener('click', () => {
-                // console.log(indice + 1)
-                const nuevaFecha = new Date()
                 nuevaFecha.setFullYear(calendarDate.getFullYear())
                 nuevaFecha.setMonth(calendarDate.getMonth())
                 nuevaFecha.setDate(indice + 1)
 
                 document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[nuevaFecha.getDay()]} ${nuevaFecha.getDate()} de ${meses[nuevaFecha.getMonth()]}`
+
+                let eventosSelec = eventos.filter(evento => evento.date === nuevaFecha.toLocaleDateString())
+                console.log(eventosSelec);
+
+                mostrarEventoSelec(eventosSelec);
             })
         })
 
     }
 
-    // mostrarEventoSelec();
+    SeleccionarEvento();
     mostrarCalendario();
+    mostrarEventoSelec(eventos.filter(evento => evento.date === new Date().toLocaleDateString()));
 
     document.querySelector('.prev').addEventListener('click', () => {
         calendarDate.setMonth(calendarDate.getMonth() - 1)
