@@ -1,0 +1,34 @@
+[
+    [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre"
+    ],
+    [
+        "Dom",
+        "Lun",
+        "Mar",
+        "Mier",
+        "Jue",
+        "Vie",
+        "Sab"
+    ],
+    [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miercoles",
+        "Jueves",
+        "Viernes",
+        "Sabado"
+    ]
+]

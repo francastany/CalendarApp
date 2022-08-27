@@ -189,145 +189,124 @@ if (eventosLista != null && agregarEvento != null) { //Detectamos en que page no
     
 } else if(eventosLista === null && contactoForm === null) {
     
-    const meses = [
-        "Enero",
-        "Febrero",
-        "Marzo",
-        "Abril",
-        "Mayo",
-        "Junio",
-        "Julio",
-        "Agosto",
-        "Septiembre",
-        "Octubre",
-        "Noviembre",
-        "Diciembre",
-    ];
-    const diasDeSemana = [
-        "Dom",
-        "Lun",
-        "Mar",
-        "Mier",
-        "Jue",
-        "Vie",
-        "Sab",
-    ];
-    const diasDeSemanaLong = [
-        "Domingo",
-        "Lunes",
-        "Marter",
-        "Miercoles",
-        "Jueves",
-        "Viernes",
-        "Sabado",
-    ];
-
-    agregarEvento();
-
-    const calendarDate = new Date();
-    calendarDate.setDate(1) //Seteamos la fecha al primer día del mes para saber en que día de la semana comienza el mismo.
+    fetch('../js/json/dias.json')
+    .then(response => response.json())
+    .then(data => {
+        const meses = data[0]
+        const diasDeSemana = data[1]
+        const diasDeSemanaLong = data[2]
 
 
-    document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[new Date().getDay()]} ${new Date().getDate()} de ${meses[new Date().getMonth()]}`
-
-    //Renderizamos el calendario
-    const mostrarCalendario = () => {
-        const diasDelMes = document.querySelector('.days') //Div contenedor
-        const ultimoDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDate() //Ultimo día del mes actual
-        
-        const UltDiaMesAnterior = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate() //Ultimo día del mes anterior
-        const indicePrimerDia = calendarDate.getDay()
-        const indiceUltDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDay()
-        const proximosDias = 7 - indiceUltDia - 1
-        
-        let dias = ""
+        agregarEvento();
+    
+        const calendarDate = new Date();
+        calendarDate.setDate(1) //Seteamos la fecha al primer día del mes para saber en que día de la semana comienza el mismo.
+    
+    
+        document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[new Date().getDay()]} ${new Date().getDate()} de ${meses[new Date().getMonth()]}`
+    
+        //Renderizamos el calendario
+        const mostrarCalendario = () => {
+            const diasDelMes = document.querySelector('.days') //Div contenedor
+            const ultimoDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDate() //Ultimo día del mes actual
             
-        //Titulo del calendario
-        document.querySelector('.date h1').innerHTML = meses[calendarDate.getMonth()]
-        document.querySelector('.date p').innerHTML = `${diasDeSemana[new Date().getDay()]}, ${new Date().getDate()} de ${meses[new Date().getMonth()]} de ${new Date().getUTCFullYear()}`
-        //Mostrar días del mes anterior
-        for(let x = indicePrimerDia; x > 0; x--) {
-            dias += `<div class="prev-date">${UltDiaMesAnterior - x + 1}</div>`
-        }
-        
-        //Mostrar días del mes y destacar día de hoy
-        for(let i = 1; i <= ultimoDia; i++) {
-            if(i === new Date().getDate() && calendarDate.getMonth() === new Date().getMonth()){
-                dias += `<div class="day today">${i}</div>`
-            } else {
-                dias += `<div class="day">${i}</div>`
+            const UltDiaMesAnterior = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 0).getDate() //Ultimo día del mes anterior
+            const indicePrimerDia = calendarDate.getDay()
+            const indiceUltDia = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 0).getDay()
+            const proximosDias = 7 - indiceUltDia - 1
+            
+            let dias = ""
+                
+            //Titulo del calendario
+            document.querySelector('.date h1').innerHTML = meses[calendarDate.getMonth()]
+            document.querySelector('.date p').innerHTML = `${diasDeSemana[new Date().getDay()]}, ${new Date().getDate()} de ${meses[new Date().getMonth()]} de ${new Date().getUTCFullYear()}`
+            //Mostrar días del mes anterior
+            for(let x = indicePrimerDia; x > 0; x--) {
+                dias += `<div class="prev-date">${UltDiaMesAnterior - x + 1}</div>`
             }
-        }
+            
+            //Mostrar días del mes y destacar día de hoy
+            for(let i = 1; i <= ultimoDia; i++) {
+                if(i === new Date().getDate() && calendarDate.getMonth() === new Date().getMonth()){
+                    dias += `<div class="day today">${i}</div>`
+                } else {
+                    dias += `<div class="day">${i}</div>`
+                }
+            }
+            
+            //Mostrar días del proximo mes
+            for(let a = 1; a <= proximosDias; a++) {
+                dias += `<div class="next-date">${a}</div>`
+            }
+            diasDelMes.innerHTML = dias
         
-        //Mostrar días del proximo mes
-        for(let a = 1; a <= proximosDias; a++) {
-            dias += `<div class="next-date">${a}</div>`
+            SeleccionarEvento();
+        
+        }    
+    
+        function mostrarEventoSelec(array) {
+    
+            if(array.length === 0){
+                document.getElementById("calendarEvents-body").innerHTML = `
+                <p class="no-events">No hay eventos para esta fecha...</p>
+                `
+            } else {
+                document.getElementById("calendarEvents-body").innerHTML = ""
+    
+                array.forEach((evento) => {
+                    document.getElementById("calendarEvents-body").innerHTML += `
+                    <div class="eventoSelec">
+                        <h4>${evento.name}</h4>
+                        <p>${evento.description}</p>
+                        <span>Desde las ${evento.timeStart}hs. hasta las ${evento.timeEnd}hs.</span>
+                    </div>
+                    `
+    
+                })
+            }
+        } 
+    
+        function SeleccionarEvento() {
+            
+            let arrDias = Array.from(document.querySelectorAll('.day'))
+            const nuevaFecha = new Date()
+    
+    
+            arrDias.forEach((dia, indice) => {
+    
+                dia.addEventListener('click', () => {
+                    nuevaFecha.setFullYear(calendarDate.getFullYear())
+                    nuevaFecha.setMonth(calendarDate.getMonth())
+                    nuevaFecha.setDate(indice + 1)
+    
+                    document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[nuevaFecha.getDay()]} ${nuevaFecha.getDate()} de ${meses[nuevaFecha.getMonth()]}`
+    
+                    let eventosSelec = eventos.filter(evento => evento.date === nuevaFecha.toLocaleDateString())
+                    console.log(eventosSelec);
+    
+                    mostrarEventoSelec(eventosSelec);
+                })
+            })
+    
         }
-        diasDelMes.innerHTML = dias
     
         SeleccionarEvento();
+        mostrarCalendario();
+        mostrarEventoSelec(eventos.filter(evento => evento.date === new Date().toLocaleDateString()));
     
-    }    
-
-    function mostrarEventoSelec(array) {
-
-        if(array.length === 0){
-            document.getElementById("calendarEvents-body").innerHTML = `
-            <p class="no-events">No hay eventos para esta fecha...</p>
-            `
-        } else {
-            document.getElementById("calendarEvents-body").innerHTML = ""
-
-            array.forEach((evento) => {
-                document.getElementById("calendarEvents-body").innerHTML += `
-                <div class="eventoSelec">
-                    <h4>${evento.name}</h4>
-                    <p>${evento.description}</p>
-                    <span>Desde las ${evento.timeStart}hs. hasta las ${evento.timeEnd}hs.</span>
-                </div>
-                `
-
-            })
-        }
-    } 
-
-    function SeleccionarEvento() {
-        
-        let arrDias = Array.from(document.querySelectorAll('.day'))
-        const nuevaFecha = new Date()
-
-
-        arrDias.forEach((dia, indice) => {
-
-            dia.addEventListener('click', () => {
-                nuevaFecha.setFullYear(calendarDate.getFullYear())
-                nuevaFecha.setMonth(calendarDate.getMonth())
-                nuevaFecha.setDate(indice + 1)
-
-                document.getElementById("calendarEvents-title").lastElementChild.innerHTML = `${diasDeSemanaLong[nuevaFecha.getDay()]} ${nuevaFecha.getDate()} de ${meses[nuevaFecha.getMonth()]}`
-
-                let eventosSelec = eventos.filter(evento => evento.date === nuevaFecha.toLocaleDateString())
-                console.log(eventosSelec);
-
-                mostrarEventoSelec(eventosSelec);
-            })
+        document.querySelector('.prev').addEventListener('click', () => {
+            calendarDate.setMonth(calendarDate.getMonth() - 1)
+            mostrarCalendario()
+        })
+    
+        document.querySelector('.next').addEventListener('click', () => {
+            calendarDate.setMonth(calendarDate.getMonth() + 1)
+            mostrarCalendario()
         })
 
-    }
-
-    SeleccionarEvento();
-    mostrarCalendario();
-    mostrarEventoSelec(eventos.filter(evento => evento.date === new Date().toLocaleDateString()));
-
-    document.querySelector('.prev').addEventListener('click', () => {
-        calendarDate.setMonth(calendarDate.getMonth() - 1)
-        mostrarCalendario()
     })
 
-    document.querySelector('.next').addEventListener('click', () => {
-        calendarDate.setMonth(calendarDate.getMonth() + 1)
-        mostrarCalendario()
-    })
+
 
 } else{
     
