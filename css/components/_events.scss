@@ -81,7 +81,8 @@ body{
                 }
                 .listaEventos{
                     height: 80%;
-                    overflow: scroll;
+                    overflow-y: auto;
+                    overflow-x: hidden;
                     padding: 0;
                     .evento{
                         width: 100%;
